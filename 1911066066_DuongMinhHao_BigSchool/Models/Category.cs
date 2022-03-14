@@ -12,5 +12,6 @@ namespace _1911066066_DuongMinhHao_BigSchool.Models
         [Required]
         [StringLength(225)]
         public string Name { get; set; }
+        //commit lần 1
     }
 }
