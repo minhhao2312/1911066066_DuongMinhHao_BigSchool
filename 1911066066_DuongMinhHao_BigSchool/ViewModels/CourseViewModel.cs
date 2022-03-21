@@ -11,17 +11,20 @@ namespace _1911066066_DuongMinhHao_BigSchool.ViewModels
 {
     public class CourseViewModel
     {
-        public String Place { get; set; }
-        public String Date { get; set; }
-        public String Time { get; set; }
+        [Required]
+        public string Place { get; set; }
+        [Required]
+        [FutureDate]
+        public string Date { get; set; }
+        [Required]
+        public string Time { get; set; }
+        [Required]
         public byte Category { get; set; }
-        public IEnumerable <Category> Categories { get; set; }
-
-        public DateTime GetDateTime ()
+        public IEnumerable<Category> Categories { get; set; }
+        public DateTime GetDateTime()
         {
             return DateTime.Parse(string.Format("{0} {1}", Date, Time));
         }
-        //lỗi ở format date
 
     }
 }
