@@ -85,3 +85,26 @@ html {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
+.course {
+    list-style: none;
+}
+
+.course > li {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+    .course > li .date {
+        text-align: center;
+        background-color: #7b1385;
+        color: white;
+        width: 60px;
+        border-radius: 8px;
+    }
+
+.course > li .details {
+    position: absolute;
+    top: 0;
+    left: 70px;
+}
