@@ -22,6 +22,8 @@ namespace _1911066066_DuongMinhHao_BigSchool.ViewModels
         [Required]
         public byte Category { get; set; }
         public IEnumerable<Category> Categories { get; set; }
+        public IEnumerable<Course> UpcomingCourse { get; set; }
+        public bool ShowAction { get; set; }
         public DateTime GetDateTime()
         {
             return DateTime.Parse(string.Format("{0} {1}", Date, Time));
