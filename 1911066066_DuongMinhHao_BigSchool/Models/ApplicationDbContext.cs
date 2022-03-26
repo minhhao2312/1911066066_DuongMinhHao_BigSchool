@@ -40,6 +40,7 @@ namespace _1911066066_DuongMinhHao_BigSchool.Models
                  .HasMany(u => u.Followees)
                  .WithRequired(f => f.Follower)
                  .WillCascadeOnDelete(false);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

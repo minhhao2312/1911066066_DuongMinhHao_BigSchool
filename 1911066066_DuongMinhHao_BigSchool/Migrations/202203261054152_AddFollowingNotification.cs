@@ -8,13 +8,13 @@ namespace _1911066066_DuongMinhHao_BigSchool.Migrations
         public override void Up()
         {
             CreateTable(
-              "dbo.FollowingNotifications",
-              c => new
-              {
-                  Id = c.Int(nullable: false, identity: true),
-                  Logger = c.String(),
-              })
-              .PrimaryKey(t => t.Id);
+             "dbo.FollowingNotifications",
+             c => new
+             {
+                 Id = c.Int(nullable: false, identity: true),
+                 Logger = c.String(),
+             })
+             .PrimaryKey(t => t.Id);
 
         }
 

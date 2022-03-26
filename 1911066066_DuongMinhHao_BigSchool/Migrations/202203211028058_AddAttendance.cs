@@ -8,18 +8,17 @@ namespace _1911066066_DuongMinhHao_BigSchool.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Attendances",
-                c => new
-                    {
-                        CourseId = c.Int(nullable: false),
-                        AttendeeId = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.CourseId, t.AttendeeId })
-                .ForeignKey("dbo.AspNetUsers", t => t.AttendeeId, cascadeDelete: true)
-                .ForeignKey("dbo.Courses", t => t.CourseId)
-                .Index(t => t.CourseId)
-                .Index(t => t.AttendeeId);
-            
+               "dbo.Attendances",
+               c => new
+               {
+                   CourseId = c.Int(nullable: false),
+                   AttendeeId = c.String(nullable: false, maxLength: 128),
+               })
+               .PrimaryKey(t => new { t.CourseId, t.AttendeeId })
+               .ForeignKey("dbo.AspNetUsers", t => t.AttendeeId, cascadeDelete: true)
+               .ForeignKey("dbo.Courses", t => t.CourseId)
+               .Index(t => t.CourseId)
+               .Index(t => t.AttendeeId);
         }
         
         public override void Down()
