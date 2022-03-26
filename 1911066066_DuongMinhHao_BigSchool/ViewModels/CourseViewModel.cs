@@ -29,6 +29,8 @@ namespace _1911066066_DuongMinhHao_BigSchool.ViewModels
             get { return (Id != 0) ? "Update" : "Create"; }
         }
         public IEnumerable<Course> UpcomingCourse { get; set; }
+        public IEnumerable<Following> Followings { get; set; }
+        public IEnumerable<Attendance> Attendances { get; set; }
         public bool ShowAction { get; set; }
         public DateTime GetDateTime()
         {

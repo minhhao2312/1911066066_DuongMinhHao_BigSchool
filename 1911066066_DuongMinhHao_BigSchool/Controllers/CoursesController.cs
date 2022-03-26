@@ -19,7 +19,6 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
             {
                 _dbContext = new ApplicationDbContext();
             }
-            //comit 1
             public ActionResult Create()
             {
                 var viewModel = new CourseViewModel
@@ -60,6 +59,7 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
                 .Select(a => a.Course)
                 .Include(l => l.Lecturer)
                 .Include(l => l.Category)
+                .Where(a => a.IsCanceled == false)
                 .ToList();
 
             var viewModel = new CourseViewModel
@@ -75,16 +75,14 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            var courses = _dbContext.Attendances
-                   .Where(a => a.AttendeeId == userId)
-                   .Select(a => a.Course)
-                   .Include(l => l.Lecturer)
-                   .Include(l => l.Category)
+            var followings = _dbContext.Followings
+                   .Where(a => a.FolloweeId == userId)
+                   .Select(a => a.Follower)
                    .ToList();
 
-            var viewModel = new CourseViewModel
+            var viewModel = new FollowingViewModel
             {
-                UpcomingCourse = courses,
+                Followings = followings,
                 ShowAction = User.Identity.IsAuthenticated
             };
             return View(viewModel);
@@ -102,6 +100,33 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
                    .ToList();
 
             return View(courses);
+        }
+
+        public ActionResult FollowingMeList()
+        {
+            var userId = User.Identity.GetUserId();
+            var followings = _dbContext.Followings
+                .Where(a => a.FollowerId == userId)
+                .Select(a => a.Followee)
+                .ToList();
+
+            var viewModel = new FollowingViewModel
+            {
+                Followings = followings,
+                ShowAction = User.Identity.IsAuthenticated
+            };
+
+            return View(viewModel);
+        }
+
+        public ActionResult FollowNotification()
+        {
+            var viewModel = new FollowNotificationViewModel
+            {
+                Notifications = _dbContext.FollowingNotifications.ToList()
+            };
+
+            return View(viewModel);
         }
 
         [Authorize]

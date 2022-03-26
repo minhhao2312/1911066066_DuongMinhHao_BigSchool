@@ -187,6 +187,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DTOs\AttendanceDto.cs" />
     <Compile Include="DTOs\FollowingDto.cs" />
+    <Compile Include="DTOs\UnFollowDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -218,6 +219,10 @@
     <Compile Include="Migrations\202203221322476_AddIsCanceledColumnToCourse.Designer.cs">
       <DependentUpon>202203221322476_AddIsCanceledColumnToCourse.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203261054152_AddFollowingNotification.cs" />
+    <Compile Include="Migrations\202203261054152_AddFollowingNotification.Designer.cs">
+      <DependentUpon>202203261054152_AddFollowingNotification.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -226,10 +231,13 @@
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Following.cs" />
+    <Compile Include="Models\FollowingNotification.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CourseViewModel.cs" />
+    <Compile Include="ViewModels\FollowingViewModel.cs" />
+    <Compile Include="ViewModels\FollowNotificationViewModel.cs" />
     <Compile Include="ViewModels\FutureDate.cs" />
     <Compile Include="ViewModels\ValidTime.cs" />
   </ItemGroup>
@@ -295,10 +303,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Courses\Create.cshtml" />
     <Content Include="Views\Courses\Attending.cshtml" />
     <Content Include="Views\Courses\Following.cshtml" />
     <Content Include="Views\Courses\Mine.cshtml" />
+    <Content Include="Views\Courses\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -339,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203221322476_AddIsCanceledColumnToCourse.resx">
       <DependentUpon>202203221322476_AddIsCanceledColumnToCourse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203261054152_AddFollowingNotification.resx">
+      <DependentUpon>202203261054152_AddFollowingNotification.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

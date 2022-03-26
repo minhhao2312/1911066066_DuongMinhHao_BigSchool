@@ -13,6 +13,7 @@ namespace _1911066066_DuongMinhHao_BigSchool.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Following> Followings { get; set; }
+        public DbSet<FollowingNotification> FollowingNotifications { get; set; }
         public ApplicationDbContext()
          : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -39,8 +40,6 @@ namespace _1911066066_DuongMinhHao_BigSchool.Models
                  .HasMany(u => u.Followees)
                  .WithRequired(f => f.Follower)
                  .WillCascadeOnDelete(false);
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

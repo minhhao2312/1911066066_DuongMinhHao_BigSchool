@@ -27,7 +27,7 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
             var attendance = new Attendance
             {
                 CourseId = attendanceDto.CourseId,
-                AttendeeId = userId,
+                AttendeeId = User.Identity.GetUserId(),
             };
             _dbContext.Attendances.Add(attendance);
             _dbContext.SaveChanges();

@@ -1,4 +1,5 @@
-﻿@model _1911066066_DuongMinhHao_BigSchool.ViewModels.CourseViewModel
+﻿@using Microsoft.AspNet.Identity;
+@model _1911066066_DuongMinhHao_BigSchool.ViewModels.FollowingViewModel
 
 @{
     ViewBag.Title = "Following";
@@ -8,63 +9,38 @@
 <h2>Following</h2>
 
 <ul class="course">
-    @foreach (var course in Model.UpcomingCourse)
+    @foreach (var follow in Model.Followings)
     {
         <li>
-            <div class="date">
-                <div class="month">
-                    @course.DateTime.ToString("MM")
-                </div>
-                <div class="day">
-                    @course.DateTime.ToString("dd")
-                </div>
-            </div>
             <div class="details">
                 <span class="lecturer">
-                    @course.Lecturer.Name
-                    @if (Model.ShowAction)
-                    {
-                        <button class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
-                    }
+                    @follow.Name
                 </span>
-                <span class="category">
-                    @course.Category.Name
-                </span>
-                @if (Model.ShowAction)
-                {
-                    <button data-course-id="@course.Id" class="btn btn-default" btn-sm js-toggle-attendance>Going?</button>
-                }
             </div>
+            <a href="#" data-followee-id="@follow.Id" data-follower-id="@User.Identity.GetUserId()" class="js-unfollow">UnFollow</a>
         </li>
     }
 </ul>
-@section scripts
-{
-    <script>
-        $(document).ready(function () {
-            $(".js-toggle-attendance").click(function (e) {
-                var button = $(e.target);
-                $.post("/api/attendances", { courseId: button.attr("data-course-id") })
-                    .done(function () {
-                        button
-                            .removeClass("btn-default")
-                            .addClass("btn-info")
-                            .text("Going");
-                    })
-                    .fail(function () {
-                        alert("Something failed!");
-                    });
+@section scripts{
+<script>
+    $('.js-unfollow').click(function () {
+        var link = $(this);
+        bootbox.confirm("Are you sure to cancel?", function () {
+            var followeeId = link.attr('data-followee-id');
+            var followerId = link.attr('data-follower-id');
+
+            $.ajax({
+                url: "/api/unfollow/" + followerId + "/" + followeeId,
+                method: "DELETE"
+            }).done(function () {
+                link.parents("li").fadeOut(function () {
+                    this.remove();
+                });
+            }).fail(function () {
+                alert("Something failed");
             });
-            $(".js-toggle-follow").click(function (e) {
-                var button = $(e.target);
-                $.post("/api//followings", { followeeId: button.attr("data-user-id") })
-                    .done(function () {
-                        button.text("Following");
-                    })
-                    .fail(function () {
-                        alert("Something failed");
-                    });
-            });
+
         });
-    </script>
+    });
+</script>
 }
