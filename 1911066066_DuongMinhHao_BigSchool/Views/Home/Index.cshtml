@@ -1,4 +1,6 @@
-﻿@model _1911066066_DuongMinhHao_BigSchool.ViewModels.CourseViewModel
+﻿@using Microsoft.AspNet.Identity;
+@using _1911066066_DuongMinhHao_BigSchool.Models;
+@model _1911066066_DuongMinhHao_BigSchool.ViewModels.CourseViewModel
 @{
     ViewBag.Title = "Home Page";
 }
@@ -20,59 +22,112 @@
                     @course.Lecturer.Name
                     @if (Model.ShowAction)
                     {
-                        if (Model.Followings.Any(x => x.FolloweeId == course.Lecturer.Id))
+                        var User_ID = User.Identity.GetUserId();
+                        ApplicationDbContext _dbContext = new ApplicationDbContext();
+                        bool isFollowing = _dbContext.Followings.Any(f => f.FolloweeId == course.LecturerId && f.FollowerId == User_ID);
+                        if (isFollowing)
                         {
-                            <button data-user-id="@course.LecturerId" class="btn btn-default btn-sm js-toggle-follow">Following</button>
+                            <button class="btn btn-info btn-sm js-toggle-follow" data-user-id="@course.LecturerId">
+                                Following
+                            </button>
                         }
                         else
                         {
-                            <button data-user-id="@course.LecturerId" class="btn btn-default btn-sm js-toggle-follow">Follow</button>
+                            <button class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">
+                                Follow
+                            </button>
                         }
+
                     }
                 </span>
                 <span class="category">
                     @course.Category.Name
-                    @if (Model.ShowAction)
-                    {
-                        if (Model.Attendances.Any(x => x.CourseId == course.Id))
-                        {
-                            <button data-course-id="@course.Id" class="btn btn-sm btn-info">Going</button>
-                        }
-                        else
-                        {
-                            <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Go</button>
-                        }
-                    }
                 </span>
+                @if (Model.ShowAction)
+                {
+                    var User_ID = User.Identity.GetUserId();
+                    ApplicationDbContext _dbContext = new ApplicationDbContext();
+                    bool isGoing = _dbContext.Attendances.Any(a => a.CourseId == course.Id && a.AttendeeId == User_ID);
+
+                    if (isGoing)
+                    {
+                        <button data-course-id="@course.Id" class="btn btn-info btn-sm js-toggle-attendance">Going</button>
+                    }
+                    else
+                    {
+                        <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Going?</button>
+                    }
+
+                }
             </div>
         </li>
     }
 </ul>
 @section scripts{
     <script>
-        $(function () {
-            $('.js-toggle-attendance').click(function (e) {
+        $(document).ready(function () {
+            $(".js-toggle-attendance").click(function (e) {
                 var button = $(e.target);
-                $.post("/api/attendances", { CourseId: button.attr("data-course-id") }).done(function () {
-                    button
-                        .removeClass("btn-default")
-                        .addClass("btn-info")
-                        .text("Going");
-                }).fail(function () {
-                    alert("Something failed");
-                });
+                if (button.hasClass("btn-default")) {
+                    $.post("/api/Attendances", { courseId: button.attr("data-course-id") })
+                        .done(function () {
+                            button
+                                .removeClass("btn-default")
+                                .addClass("btn-info")
+                                .text("Going");
+                        })
+                        .fail(function () {
+                            alert("Something failed!");
+                        });
+                }
+                else {
+                    $.ajax({
+                        url: "/api/attendances/" + button.attr("data-course-id"),
+                        method: "DELETE"
+                    })
+                        .done(function () {
+                            button
+                                .removeClass("btn-info")
+                                .addClass("btn-default")
+                                .text("Going?");
+                        })
+                        .fail(function () {
+                            alert("Something failed!");
+                        });
+                }
+
             });
-
-
-            $('.js-toggle-follow').click(function (e) {
+            $(".js-toggle-follow").click(function (e) {
                 var button = $(e.target);
-                $.post("/api/followings", { FolloweeId: button.attr("data-user-id") }).done(function () {
-                    button
-                        .text("Following");
-                }).fail(function () {
-                    alert("Something failed");
-                });
+                if (button.hasClass("btn-default")) {
+                    $.post("/api/followings", { followeeId: button.attr("data-user-id") })
+                        .done(function () {
+                            button
+                                .removeClass("btn-default")
+                                .addClass("btn-info")
+                                .text("Following");
+                        })
+                        .fail(function () {
+                            alert("Something failed!");
+                        });
+                }
+                else {
+                    $.ajax({
+                        url: "/api/followings/" + button.attr("data-user-id"),
+                        method: "DELETE"
+                    })
+                        .done(function () {
+                            button
+                                .removeClass("btn-info")
+                                .addClass("btn-default")
+                                .text("Follow");
+                        })
+                        .fail(function () {
+                            alert("Something failed!");
+                        });
+                }
             });
         });
+
     </script>
 }
