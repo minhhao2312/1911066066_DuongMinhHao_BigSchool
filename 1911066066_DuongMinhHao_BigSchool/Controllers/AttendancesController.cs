@@ -27,11 +27,24 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
             var attendance = new Attendance
             {
                 CourseId = attendanceDto.CourseId,
-                AttendeeId = User.Identity.GetUserId(),
+                AttendeeId = userId
             };
             _dbContext.Attendances.Add(attendance);
             _dbContext.SaveChanges();
             return Ok();
+        }
+
+        public IHttpActionResult DeleteAttendance(int id)
+        {
+            var userId = User.Identity.GetUserId();
+            var attendance = _dbContext.Attendances.SingleOrDefault(a => a.AttendeeId == userId && a.CourseId == id);
+            if (attendance == null)
+            {
+                return NotFound();
+            }
+            _dbContext.Attendances.Remove(attendance);
+            _dbContext.SaveChanges();
+            return Ok(id);
         }
     }
 }

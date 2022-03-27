@@ -59,7 +59,6 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
                 .Select(a => a.Course)
                 .Include(l => l.Lecturer)
                 .Include(l => l.Category)
-                .Where(a => a.IsCanceled == false)
                 .ToList();
 
             var viewModel = new CourseViewModel
@@ -75,16 +74,10 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            var followings = _dbContext.Followings
+            var viewModel = _dbContext.Followings
                    .Where(a => a.FolloweeId == userId)
                    .Select(a => a.Follower)
                    .ToList();
-
-            var viewModel = new FollowingViewModel
-            {
-                Followings = followings,
-                ShowAction = User.Identity.IsAuthenticated
-            };
             return View(viewModel);
         }
 

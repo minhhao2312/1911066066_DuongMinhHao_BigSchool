@@ -37,24 +37,17 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
             return Ok();
         }
 
-        public IHttpActionResult UnFollow(string followeeId, string followerId)
+        public IHttpActionResult DeleteFollow(string Id)
         {
-            var follow = _dbContext.Followings
-                .Where(x => x.FolloweeId == followeeId && x.FollowerId == followerId)
-                .Include(x => x.Followee)
-                .Include(x => x.Follower).SingleOrDefault();
-
-            var followingNotification = new FollowingNotification()
+            var userId = User.Identity.GetUserId();
+            var following = _dbContext.Followings.SingleOrDefault(f => f.FollowerId == userId && f.FolloweeId == Id);
+            if (following == null)
             {
-                Id = 0,
-                Logger = follow.Follower.Name + " unfollow " + follow.Followee.Name
-            };
-
-            _dbContext.FollowingNotifications.Add(followingNotification);
-
-            _dbContext.Followings.Remove(follow);
+                return NotFound();
+            }
+            _dbContext.Followings.Remove(following);
             _dbContext.SaveChanges();
-            return Ok();
+            return Ok(Id);
         }
     }
 }

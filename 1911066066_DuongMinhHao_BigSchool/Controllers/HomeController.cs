@@ -23,16 +23,11 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
                 .Include(c => c.Lecturer)
                 .Include(c => c.Category)
                 .Where(c => c.DateTime > DateTime.Now);
-           
-            var userId = User.Identity.GetUserId();
 
             var viewModel = new CourseViewModel
             {
                 UpcomingCourse = upcomingCourses,
                 ShowAction = User.Identity.IsAuthenticated,
-                Followings = _dbContext.Followings.Where(f => userId != null && f.FolloweeId == userId).ToList(),
-                Attendances = _dbContext.Attendances.Include(a => a.Course).ToList()
-
             };
 
             return View(viewModel);
