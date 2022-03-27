@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using _1911066066_DuongMinhHao_BigSchool.ViewModels;
 using Microsoft.AspNet.Identity;
+using PagedList;
 
 namespace _1911066066_DuongMinhHao_BigSchool.Controllers
 {
@@ -17,6 +18,7 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
         {
             _dbContext = new ApplicationDbContext();
         }
+
         public ActionResult Index()
         {
             var upcomingCourses = _dbContext.Courses
@@ -46,5 +48,7 @@ namespace _1911066066_DuongMinhHao_BigSchool.Controllers
 
             return View();
         }
+
+
     }
 }
