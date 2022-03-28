@@ -23,11 +23,12 @@
             </div>
             <div class="details">
                 <span class="lecturer">
-                    @course.Lecturer.Name
+                    Tên: @course.Lecturer.Name
                 </span>
 
                 <span class="category">
-                    @course.Category.Name
+                    <br />
+                    Môn: @course.Category.Name
                     @if (Model.ShowAction)
                     {
                         var User_ID = User.Identity.GetUserId();

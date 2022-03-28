@@ -20,7 +20,7 @@
             </div>
             <div class="details">
                 <span class="lecturer">
-                    @course.Lecturer.Name
+                    Giảng viên: @course.Lecturer.Name
                     @if (Model.ShowAction)
                     {
                         var User_ID = User.Identity.GetUserId();
@@ -42,7 +42,8 @@
                     }
                 </span>
                 <span class="category">
-                    @course.Category.Name
+                    <br />
+                  Môn: @course.Category.Name
                 </span>
                 @if (Model.ShowAction)
                 {
